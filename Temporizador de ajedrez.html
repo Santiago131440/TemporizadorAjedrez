@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcador de Ajedrez</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    #container {
+        max-width: 400px;
+        margin: 50px auto;
+        text-align: center;
+    }
+    #jugador1, #jugador2 {
+        display: inline-block;
+        width: 45%;
+        margin-right: 5%;
+        text-align: center;
+    }
+    #tiempo {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <h1>Marcador de Ajedrez</h1>
+    <div id="jugador1">
+        <h2>Jugador 1</h2>
+        <div id="tiempo1">0:00</div>
+        <button onclick="toggleTiempo('jugador1')">Iniciar/Parar</button>
+    </div>
+    <div id="jugador2">
+        <h2>Jugador 2</h2>
+        <div id="tiempo2">0:00</div>
+        <button onclick="toggleTiempo('jugador2')">Iniciar/Parar</button>
+    </div>
+    <button onclick="finalizarPartida()">Finalizar Partida</button>
+</div>
+<script>
+    var tiempo1 = 0;
+    var tiempo2 = 0;
+    var interval;
+
+    function toggleTiempo(jugador) {
+        clearInterval(interval); // Detener el temporizador actual
+
+        if (jugador === 'jugador1') {
+            interval = setInterval(actualizarTiempo1, 1000);
+        } else {
+            interval = setInterval(actualizarTiempo2, 1000);
+        }
+    }
+
+    function actualizarTiempo1() {
+        tiempo1++;
+        document.getElementById("tiempo1").textContent = formatTiempo(tiempo1);
+    }
+
+    function actualizarTiempo2() {
+        tiempo2++;
+        document.getElementById("tiempo2").textContent = formatTiempo(tiempo2);
+    }
+
+    function formatTiempo(tiempo) {
+        var minutos = Math.floor(tiempo / 60);
+        var segundos = tiempo % 60;
+        return minutos + ":" + (segundos < 10 ? "0" : "") + segundos;
+    }
+
+    function finalizarPartida() {
+        clearInterval(interval); // Detener el temporizador actual
+
+        var ganador = tiempo1 < tiempo2 ? "Jugador 1" : "Jugador 2";
+        alert("¡La partida ha finalizado!\nGanador: " + ganador + "\nTiempo Jugador 1: " + formatTiempo(tiempo1) + "\nTiempo Jugador 2: " + formatTiempo(tiempo2));
+    }
+</script>
+</body>
+</html>
